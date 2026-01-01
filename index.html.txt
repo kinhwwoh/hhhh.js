@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>TÀI XỈU CASINO VIP</title>
+    <link rel="apple-touch-icon" href="https://img.icons8.com/color/512/dice.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tài Xỉu VIP">
+
+    <style>
+        :root {
+            --gold: linear-gradient(180deg, #ffd700, #b8860b);
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            margin: 0; padding: 0; height: 100vh;
+            background: radial-gradient(circle at center, #1e4d2b 0%, #000 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-family: 'Arial', sans-serif; color: white; overflow: hidden;
+        }
+
+        /* Khung số dư lấp lánh */
+        .wallet {
+            background: var(--glass); padding: 10px 30px; border-radius: 50px;
+            border: 2px solid #ffd700; color: #ffd700; font-size: 26px;
+            font-weight: 900; margin-bottom: 30px; box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Bàn chơi Carbon Elip */
+        .table {
+            width: 360px; height: 200px;
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), #2c1509;
+            border: 5px solid #ffd700; border-radius: 100px / 50px;
+            display: flex; justify-content: space-around; align-items: center;
+            position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.8), inset 0 0 40px #000;
+        }
+
+        .bet-side { width: 100px; text-align: center; cursor: pointer; transition: 0.2s; -webkit-tap-highlight-color: transparent; }
+        .bet-side:active { transform: scale(0.9); }
+        .tai-text { color: #ff3333; font-size: 42px; font-weight: 900; text-shadow: 0 0 15px #ff0000; margin: 0; }
+        .xiu-text { color: #33ffff; font-size: 42px; font-weight: 900; text-shadow: 0 0 15px #00ffff; margin: 0; }
+        .active-bet { background: rgba(255,255,255,0.15); border-radius: 40px; box-shadow: 0 0 20px white; }
+
+        /* Bát và Xúc xắc 3D */
+        .bowl {
+            width: 100px; height: 100px; background: #111; border: 3px solid #ffd700;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            gap: 2px; position: relative; box-shadow: inset 0 0 15px #000;
+        }
+        .dice-img { width: 35px; height: 35px; }
+
+        /* Nắp bát VIP */
+        #lid {
+            position: absolute; width: 104%; height: 104%;
+            background: radial-gradient(circle, #8b4513, #2c1509);
+            border: 3px solid #ffd700; border-radius: 50%; z-index: 10;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: #ffd700; text-shadow: 0 1px 2px #000;
+            transition: transform 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045), opacity 0.5s;
+        }
+        .lid-open { transform: translate(120px, -120px) rotate(45deg); opacity: 0; pointer-events: none; }
+
+        /* Nút Đặt cược Đồ họa cực căng */
+        .btn-play {
+            margin-top: 40px; width: 240px; height: 65px;
+            background: linear-gradient(180deg, #f1c40f, #b8860b);
+            border: 2px solid #fff; border-radius: 50px;
+            color: #000; font-size: 24px; font-weight: 900;
+            text-transform: uppercase; cursor: pointer;
+            box-shadow: 0 8px 0 #7b5d03, 0 15px 30px rgba(0,0,0,0.6);
+            transition: 0.1s;
+        }
+        .btn-play:active { transform: translateY(4px); box-shadow: 0 2px 0 #7b5d03; }
+
+        /* Lịch sử cầu */
+        .history { display: flex; gap: 8px; margin-top: 30px; }
+        .dot { width: 15px; height: 15px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); }
+        .dot-t { background: #ff3333; box-shadow: 0 0 8px #ff0000; }
+        .dot-x { background: #33ffff; box-shadow: 0 0 8px #00ffff; }
+    </style>
+</head>
+<body>
+
+    <div class="wallet">💰 <span id="balance">8,700,000</span></div>
+
+    <div class="table" id="game-table">
+        <div class="bet-side" id="side-T" onclick="selectSide('T')">
+            <p class="tai-text">TÀI</p>
+            <small style="color:#ffd700">741,648</small>
+        </div>
+
+        <div class="bowl" onclick="openLid()">
+            <div id="lid">CHẠM MỞ</div>
+            <div id="dice-container" style="display:flex; flex-wrap:wrap; justify-content:center; width:80px">
+                <img src="https://img.icons8.com/emoji/96/die-face-1-emoji.png" class="dice-img">
+                <img src="https://img.icons8.com/emoji/96/die-face-2-emoji.png" class="dice-img">
+                <img src="https://img.icons8.com/emoji/96/die-face-3-emoji.png" class="dice-img">
+            </div>
+        </div>
+
+        <div class="bet-side" id="side-X" onclick="selectSide('X')">
+            <p class="xiu-text">XỈU</p>
+            <small style="color:#ffd700">721,548</small>
+        </div>
+    </div>
+
+    <button class="btn-play" onclick="startShake()">ĐẶT CƯỢC</button>
+
+    <div class="history" id="history-dots">
+        </div>
+
+    <script>
+        let sodu = 8700000;
+        let dangChon = "";
+        let daXoc = false;
+
+        function selectSide(side) {
+            dangChon = side;
+            document.getElementById('side-T').classList.remove('active-bet');
+            document.getElementById('side-X').classList.remove('active-bet');
+            document.getElementById('side-' + side).classList.add('active-bet');
+        }
+
+        function startShake() {
+            if(!dangChon) { alert("Vui lòng chọn cửa!"); return; }
+            const lid = document.getElementById('lid');
+            lid.classList.remove('lid-open');
+            lid.innerText = "ĐANG LẮC...";
+            document.getElementById('game-table').style.animation = "shake 0.1s infinite";
+            
+            setTimeout(() => {
+                document.getElementById('game-table').style.animation = "none";
+                lid.innerText = "MỞ BÁT";
+                window.kq = [rand(), rand(), rand()];
+                daXoc = true;
+            }, 1000);
+        }
+
+        function openLid() {
+            if(!daXoc) return;
+            document.getElementById('lid').classList.add('lid-open');
+            let d = window.kq;
+            let tong = d[0] + d[1] + d[2];
+            let ketqua = tong >= 11 ? 'T' : 'X';
+
+            // Cập nhật hình xúc xắc 3D thật
+            document.getElementById('dice-container').innerHTML = d.map(v => 
+                `<img src="https://img.icons8.com/emoji/96/die-face-${v}-emoji.png" class="dice-img">`
+            ).join('');
+
+            // Xử lý thắng thua
+            setTimeout(() => {
+                if(dangChon === ketqua) {
+                    sodu += 1000000;
+                    alert("THẮNG LỚN! 🎉 Tổng điểm: " + tong);
+                } else {
+                    sodu -= 1000000;
+                    alert("THUA RỒI! 😅 Tổng điểm: " + tong);
+                }
+                document.getElementById('balance').innerText = sodu.toLocaleString();
+                addHistory(ketqua);
+                daXoc = false;
+            }, 500);
+        }
+
+        function addHistory(kq) {
+            const h = document.getElementById('history-dots');
+            const dot = document.createElement('div');
+            dot.className = `dot dot-${kq.toLowerCase()}`;
+            h.appendChild(dot);
+        }
+
+        function rand() { return Math.floor(Math.random() * 6) + 1; }
+    </script>
+
+    <style>
+        @keyframes shake {
+            0% { transform: rotate(1deg) translate(2px, 2px); }
+            50% { transform: rotate(-1deg) translate(-2px, -2px); }
+            100% { transform: rotate(1deg) translate(2px, 2px); }
+        }
+    </style>
+</body>
+</html>
